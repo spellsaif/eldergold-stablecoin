@@ -11,7 +11,7 @@ pub fn process_initialize_config(ctx: Context<InitializeConfig>) -> Result<()> {
 pub struct InitializeConfig<'info> {
     
     #[account(mut)]
-    pub authority: Signer<'info>
+    pub authority: Signer<'info>,
 
     #[account(
         init,
