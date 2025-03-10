@@ -1,9 +1,12 @@
 use anchor_lang::prelude::*;
+use anchor_spl::token_interface::Mint;
 
-use crate::{ConfigState, SEED_CONFIG_ACCOUNT, SEED_MINT_ACCOUNT, MINT_DECIMALS};
+use crate::{constants::{MINT_DECIMALS, SEED_CONFIG_ACCOUNT, SEED_MINT_ACCOUNT}, states::ConfigState};
 
-pub fn process_initialize_config(ctx: Context<InitializeConfig>) -> Result<()> {
 
+pub fn process_initialize_config(_ctx: Context<InitializeConfig>) -> Result<()> {
+
+    Ok(())
 }
 
 
@@ -17,7 +20,7 @@ pub struct InitializeConfig<'info> {
         init,
         payer=authority,
         space = 8 + ConfigState::INIT_SPACE,
-        seeds = [SEED_CONFIG_ACCOUNT].
+        seeds = [SEED_CONFIG_ACCOUNT],
         bump
     )]
     pub config_account: Account<'info, ConfigState>,
@@ -34,5 +37,5 @@ pub struct InitializeConfig<'info> {
     )]
     pub mint_account: InterfaceAccount<'info, Mint>,
     pub token_program: AccountInfo<'info>,
-    pub systen_program: Program<'info, System>
+    pub system_program: Program<'info, System>
 }
