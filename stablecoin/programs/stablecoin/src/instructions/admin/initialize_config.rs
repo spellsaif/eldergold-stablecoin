@@ -1,10 +1,14 @@
 use anchor_lang::prelude::*;
-use anchor_spl::token_interface::Mint;
+use anchor_spl::{token_2022::Token2022, token_interface::Mint};
 
 use crate::{constants::{MINT_DECIMALS, SEED_CONFIG_ACCOUNT, SEED_MINT_ACCOUNT}, states::ConfigState};
 
 
-pub fn process_initialize_config(_ctx: Context<InitializeConfig>) -> Result<()> {
+pub fn process_initialize_config(ctx: Context<InitializeConfig>) -> Result<()> {
+
+    let config_account = &mut ctx.accounts.config_account;
+    config_account.authority = ctx.accounts.authority.key();
+    
 
     Ok(())
 }
@@ -36,6 +40,8 @@ pub struct InitializeConfig<'info> {
         mint::token_program = token_program
     )]
     pub mint_account: InterfaceAccount<'info, Mint>,
-    pub token_program: AccountInfo<'info>,
+    
+    //Programs
+    pub token_program: Program<'info, Token2022>,
     pub system_program: Program<'info, System>
 }
