@@ -1,13 +1,21 @@
 use anchor_lang::prelude::*;
 use anchor_spl::{token_2022::Token2022, token_interface::Mint};
 
-use crate::{constants::{MINT_DECIMALS, SEED_CONFIG_ACCOUNT, SEED_MINT_ACCOUNT}, states::ConfigState};
+use crate::{constants::{LIQUIDATION_BONUS, LIQUIDATION_THRESHOLD, MINT_DECIMALS, MIN_HEALTH_FACTOR, SEED_CONFIG_ACCOUNT, SEED_MINT_ACCOUNT}, states::ConfigState};
 
 
 pub fn process_initialize_config(ctx: Context<InitializeConfig>) -> Result<()> {
 
-    let config_account = &mut ctx.accounts.config_account;
-    config_account.authority = ctx.accounts.authority.key();
+    *ctx.accounts.config_account = ConfigState {
+        authority: ctx.accounts.authority.key(),
+        mint_account: ctx.accounts.mint_account.key(),
+        liquidation_threshold:LIQUIDATION_THRESHOLD,
+        liquidation_bonus: LIQUIDATION_BONUS,
+        min_health_factor: MIN_HEALTH_FACTOR,
+        bump: ctx.bumps.config_account,
+        bump_mint_account: ctx.bumps.mint_account
+
+    };
     
 
     Ok(())
