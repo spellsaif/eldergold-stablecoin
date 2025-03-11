@@ -6,15 +6,18 @@ pub mod states;
 pub mod constants;
 pub mod instructions;
 
+pub use instructions::*;
+
+
 #[program]
 pub mod stablecoin {
+
+    use crate::instructions::process_initialize_config;
+
     use super::*;
 
-    pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
-        msg!("Greetings from: {:?}", ctx.program_id);
-        Ok(())
+    pub fn initialize_config(ctx: Context<InitializeConfig>) -> Result<()> {
+        process_initialize_config(ctx)
     }
 }
 
-#[derive(Accounts)]
-pub struct Initialize {}
